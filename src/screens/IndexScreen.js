@@ -11,10 +11,9 @@ import { Context } from "../context/blogReducer"
 import { Ionicons, FontAwesome } from "@expo/vector-icons"
 
 const IndexScreen = ({ navigation }) => {
-  const { state, addPost, deletePost } = useContext(Context)
+  const { state, deletePost } = useContext(Context)
   return (
     <View>
-      <Button title="Add Post" onPress={addPost} />
       <FlatList
         data={state}
         keyExtractor={(state) => state.title}

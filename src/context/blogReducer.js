@@ -7,9 +7,10 @@ const blogReducer = (state, action) => {
         ...state,
         {
           id: Math.floor(Math.random() * 99999),
-          title: `Post #${state.length + 1}`,
+          title: action.payload.title,
+          content: action.payload.content
         },
-      ]
+      ];
     case "delete_Post":
       return state.filter((blogPost) => blogPost.id !== action.payload)
     default:
@@ -18,14 +19,14 @@ const blogReducer = (state, action) => {
 }
 
 const deletePost = (dispatch) => {
-	return (id) => {
-		dispatch({ type: "delete_Post", payload: id })
-	}
+  return (id) => {
+    dispatch({ type: "delete_Post", payload: id })
+  }
 }
 
 const addPost = (dispatch) => {
-	return () => {
-    dispatch({ type: "add_post" })
+  return (title, content) => {
+    dispatch({ type: "add_post", payload: { title, content } })
   }
 }
 
