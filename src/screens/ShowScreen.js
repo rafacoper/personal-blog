@@ -21,10 +21,9 @@ ShowScreen.navigationOptions = ({ navigation, blogPost }) => {
   return {
     headerRight: () => (
       <TouchableOpacity
-        onPress={() => navigation.navigate("Edit", {
-            id: blogPost.id,
-            title: blogPost.title,
-            content: blogPost.content,
+        onPress={() =>
+          navigation.navigate("Edit", {
+            id: navigation.getParam("id"),
           })
         }
       >
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 24,
     color: "black",
-    marginRight: 15
+    marginRight: 15,
   },
 })
 
