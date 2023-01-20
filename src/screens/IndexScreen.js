@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Button,
   TouchableOpacity,
 } from "react-native"
 import { Context } from "../context/blogReducer"
@@ -19,10 +18,10 @@ const IndexScreen = ({ navigation }) => {
         keyExtractor={(state) => state.title}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity onPress={() => navigation.navigate("Show")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Show", {id: item.id})}>
               <View style={styles.row}>
                 <Text style={styles.title}>
-                  {item.title} - {item.id}
+                  {item.id}: {item.title} - {item.content}
                 </Text>
                 <TouchableOpacity onPress={() => deletePost(item.id)}>
                   <Ionicons name="trash-bin-outline" style={styles.icon} />
