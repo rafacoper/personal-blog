@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import {
   View,
   Text,
@@ -10,7 +10,12 @@ import { Context } from "../context/blogReducer"
 import { Ionicons, FontAwesome } from "@expo/vector-icons"
 
 const IndexScreen = ({ navigation }) => {
-  const { state, deletePost } = useContext(Context)
+  const { state, getBlogPosts, deletePost } = useContext(Context)
+
+  useEffect(() => {
+    getBlogPosts()
+  }, [])
+
   return (
     <View>
       <FlatList
@@ -18,7 +23,9 @@ const IndexScreen = ({ navigation }) => {
         keyExtractor={(state) => state.title}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity onPress={() => navigation.navigate("Show", {id: item.id})}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Show", { id: item.id })}
+            >
               <View style={styles.row}>
                 <Text style={styles.title}>
                   {item.id}: {item.title} - {item.content}
@@ -42,7 +49,6 @@ IndexScreen.navigationOptions = ({ navigation }) => {
         <FontAwesome name="plus-square-o" style={styles.icon2} />
       </TouchableOpacity>
     ),
-    
   }
 }
 
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
   icon2: {
     fontSize: 30,
     color: "black",
-    marginRight: 15
+    marginRight: 15,
   },
 })
 

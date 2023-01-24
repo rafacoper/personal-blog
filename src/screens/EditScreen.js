@@ -5,8 +5,8 @@ import BlogPostForm from "../components/BlogPostForm"
 const EditScreen = ({ navigation }) => {
   const { state, editPost } = useContext(Context)
   const id = navigation.getParam("id")
-  
-  const blogPost = state.find(blogPost => blogPost.id === id)
+
+  const blogPost = state.find((blogPost) => blogPost.id === id)
 
   return (
     <BlogPostForm

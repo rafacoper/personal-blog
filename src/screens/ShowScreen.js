@@ -10,14 +10,14 @@ const ShowScreen = ({ navigation }) => {
   const blogPost = state.find((blogPost) => blogPost.id === id)
 
   return (
-    <View>
-      <Text>{blogPost.title}</Text>
-      <Text>{blogPost.content}</Text>
+    <View style={styles.row}>
+      <Text style={styles.title}>{blogPost.title}</Text>
+      <Text style={styles.title}>{blogPost.content}</Text>
     </View>
   )
 }
-// PROPS NÃO ESTÃO SENDO PASSADAS
-ShowScreen.navigationOptions = ({ navigation, blogPost }) => {
+
+ShowScreen.navigationOptions = ({ navigation }) => {
   return {
     headerRight: () => (
       <TouchableOpacity
@@ -34,6 +34,15 @@ ShowScreen.navigationOptions = ({ navigation, blogPost }) => {
 }
 
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
+    borderColor: "grey",
+  },
+  title: { fontSize: 18 },
   icon: {
     fontSize: 24,
     color: "black",

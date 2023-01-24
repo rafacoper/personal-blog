@@ -1,7 +1,10 @@
+import jsonServer from "../api/jsonServer"
 import createDataContext from "./createDataContext"
 
 const blogReducer = (state, action) => {
   switch (action.type) {
+    case "get_blogPosts":
+      return action.payload
     case "add_post":
       return [
         ...state,
@@ -14,27 +17,25 @@ const blogReducer = (state, action) => {
     case "delete_Post":
       return state.filter((blogPost) => blogPost.id !== action.payload)
     case "edit_post":
-      return state.map((post) => {
-        return post.id === action.payload.id ? action.payload : blogpost
-        // if (post.id === action.payload.id) {
-        //   return action.payload
-        // } else {
-        //   return blogPost
-        // }
+      return state.map((blogPost) => {
+        return blogPost.id === action.payload.id ? action.payload : blogPost
       })
     default:
       return state
   }
 }
 
-const deletePost = (dispatch) => {
-  return (id) => {
-    dispatch({ type: "delete_Post", payload: id })
+const getBlogPosts = (dispatch) => {
+  return async () => {
+    const response = await jsonServer.get("/blogposts")
+
+    dispatch({ type: "get_blogPosts", payload: response.data })
   }
 }
 
 const addPost = (dispatch) => {
-  return (title, content, callBack) => {
+  return async (title, content, callBack) => {
+    await jsonServer.post("/blogposts", { title, content })
     dispatch({ type: "add_post", payload: { title, content } })
     if (callBack) {
       callBack()
@@ -42,8 +43,16 @@ const addPost = (dispatch) => {
   }
 }
 
+const deletePost = (dispatch) => {
+  return async (id) => {
+    await jsonServer.delete(`blogposts/${id}`)
+    dispatch({ type: "delete_Post", payload: id })
+  }
+}
+
 const editPost = (dispatch) => {
-  return (id, title, content, callBack) => {
+  return async (id, title, content, callBack) => {
+    await jsonServer.put(`blogposts/${id}`, { title, content })
     dispatch({ type: "edit_post", payload: { id, title, content } })
     if (callBack) {
       callBack()
@@ -53,6 +62,6 @@ const editPost = (dispatch) => {
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addPost, deletePost, editPost },
-  [{ title: "TEST POST", content: "TEXT CONTENT", id: 1 }]
+  { addPost, deletePost, editPost, getBlogPosts },
+  []
 )
